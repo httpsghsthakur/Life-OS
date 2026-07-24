@@ -307,6 +307,7 @@ export default function Dashboard({ onOpenCommandPalette }) {
                             ))}
                         </div>
                     )}
-            </div>
+                </div>
+        </div>
     );
 }
