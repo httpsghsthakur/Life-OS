@@ -1,0 +1,128 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { FiTarget, FiCalendar, FiShield, FiAlertTriangle } from 'react-icons/fi';
+import dayjs from 'dayjs';
+import BackButton from '../components/ui/BackButton';
+
+export default function CreateChallenge() {
+    const [formData, setFormData] = useState({
+        title: '',
+        description: '',
+        category: 'Learning',
+        duration_days: 30,
+        difficulty: 'medium',
+        penalty_rule: 'restart_milestone'
+    });
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const start_date = dayjs().format('YYYY-MM-DD');
+        const end_date = dayjs().add(formData.duration_days, 'day').format('YYYY-MM-DD');
+
+        try {
+            const token = localStorage.getItem('token');
+            await axios.post('/api/challenges', {
+                ...formData,
+                start_date,
+                end_date,
+                color: '#6366F1' // default
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            navigate('/challenges');
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    return (
+        <div className="min-h-screen p-8 flex flex-col justify-center items-center">
+            <div className="w-full max-w-2xl">
+                <BackButton to="/challenges" label="Back to Challenges" />
+            </div>
+            <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="glass p-10 rounded-3xl w-full max-w-2xl"
+            >
+                <div className="mb-8 border-b border-white/10 pb-6">
+                    <h1 className="text-3xl font-bold mb-2 flex items-center gap-3">
+                        <FiTarget className="text-primary" /> Create Challenge
+                    </h1>
+                    <p className="text-textSecondary">Define your goals and set the rules. No backing down.</p>
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-2 md:col-span-2">
+                            <label className="text-sm font-medium text-textSecondary">Challenge Title</label>
+                            <input 
+                                type="text" required
+                                value={formData.title}
+                                onChange={e => setFormData({...formData, title: e.target.value})}
+                                placeholder="e.g. 100 Days of Python"
+                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary text-white"
+                            />
+                        </div>
+
+                        <div className="space-y-2 md:col-span-2">
+                            <label className="text-sm font-medium text-textSecondary">Description (Optional)</label>
+                            <textarea 
+                                value={formData.description}
+                                onChange={e => setFormData({...formData, description: e.target.value})}
+                                placeholder="What is the ultimate goal?"
+                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary text-white h-24 resize-none"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-textSecondary flex items-center gap-2"><FiCalendar /> Duration (Days)</label>
+                            <input 
+                                type="number" required min="10" max="365"
+                                value={formData.duration_days}
+                                onChange={e => setFormData({...formData, duration_days: e.target.value})}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary text-white"
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-textSecondary flex items-center gap-2"><FiShield /> Difficulty</label>
+                            <select 
+                                value={formData.difficulty}
+                                onChange={e => setFormData({...formData, difficulty: e.target.value})}
+                                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary text-white appearance-none"
+                            >
+                                <option value="easy" className="bg-surface">Easy</option>
+                                <option value="medium" className="bg-surface">Medium</option>
+                                <option value="hard" className="bg-surface">Hard</option>
+                                <option value="iron" className="bg-surface">Iron Mode (No Skips)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="p-4 bg-accent/10 border border-accent/20 rounded-xl mt-6">
+                        <div className="flex items-start gap-3">
+                            <FiAlertTriangle className="text-accent mt-1 flex-shrink-0" />
+                            <div>
+                                <h4 className="text-accent font-bold mb-1">Penalty Rule</h4>
+                                <p className="text-sm text-textSecondary">Missing 2 consecutive days will automatically restart the current milestone. You cannot change this later.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end gap-4 pt-6 border-t border-white/10">
+                        <button type="button" onClick={() => navigate('/challenges')} className="px-6 py-3 rounded-xl font-medium text-textSecondary hover:bg-white/5 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" className="bg-primary hover:bg-indigo-400 px-8 py-3 rounded-xl font-medium shadow-lg shadow-primary/25 transition-colors">
+                            Commit & Start
+                        </button>
+                    </div>
+                </form>
+            </motion.div>
+        </div>
+    );
+}

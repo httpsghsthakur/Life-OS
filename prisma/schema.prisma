@@ -1,0 +1,275 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GoalStatus {
+  DRAFT
+  PLANNED
+  ACTIVE
+  PAUSED
+  BLOCKED
+  COMPLETED
+  ARCHIVED
+  FAILED
+}
+
+enum GoalPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum GoalDifficulty {
+  EASY
+  MEDIUM
+  HARD
+  LEGENDARY
+}
+
+enum LifeArea {
+  SYS_DEV
+  IRON_FORGE
+  ACADEMIA
+  CAREER
+  FINANCE
+  HEALTH
+  MINDSET
+  CUSTOM
+}
+
+enum TaskPriority {
+  P1
+  P2
+  P3
+}
+
+enum EnergyLevel {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum ReviewStatus {
+  LOCKED
+  UNLOCKED
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  COMPLETED
+}
+
+enum GoalRole {
+  OWNER
+  EDITOR
+  VIEWER
+  REVIEWER
+}
+
+model User {
+  id              String         @id @default(uuid())
+  username        String         @unique
+  email           String         @unique
+  passwordHash    String
+  xp              Int            @default(0)
+  level           Int            @default(1)
+  currentStreak   Int            @default(0)
+  longestStreak   Int            @default(0)
+  disciplineScore Int            @default(50)
+  isOnboarded     Boolean        @default(false)
+  bio             String?
+  avatarUrl       String?
+  createdGoals    Goal[]         @relation("GoalOwner")
+  memberGoals     GoalMember[]
+  milestoneReviews ApprovalRequest[] @relation("MilestoneReviewer")
+  submittedReviews ApprovalRequest[] @relation("MilestoneRequester")
+  activityLogs    ActivityLog[]
+  journals        GoalJournal[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model Goal {
+  id                  String         @id @default(uuid())
+  title               String
+  description         String?        @db.Text
+  vision              String?        @db.Text
+  whyItMatters        String?        @db.Text
+  lifeArea            LifeArea       @default(SYS_DEV)
+  category            String
+  priority            GoalPriority   @default(MEDIUM)
+  difficulty          GoalDifficulty @default(MEDIUM)
+  status              GoalStatus     @default(PLANNED)
+  expectedDurationDays Int            @default(100)
+  weeklyHoursTarget   Float          @default(10)
+  startDate           DateTime
+  deadline            DateTime
+  color               String         @default("#4F46E5")
+  icon                String         @default("target")
+  bannerUrl           String?
+  tags                String[]
+  visibility          String         @default("private")
+  aiRoadmapEnabled    Boolean        @default(true)
+  progressPercentage  Float          @default(0)
+  momentumScore       Float          @default(100)
+  consistencyScore    Float          @default(100)
+  hoursInvested       Float          @default(0)
+  
+  ownerId             String
+  owner               User           @relation("GoalOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  
+  members             GoalMember[]
+  milestones          Milestone[]
+  knowledgeNotes      KnowledgeNote[]
+  journals            GoalJournal[]
+  files               GoalFile[]
+  activityLogs        ActivityLog[]
+
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  @@index([ownerId])
+  @@index([status])
+}
+
+model GoalMember {
+  id        String   @id @default(uuid())
+  goalId    String
+  userId    String
+  role      GoalRole @default(VIEWER)
+  goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([goalId, userId])
+}
+
+model Milestone {
+  id             String          @id @default(uuid())
+  goalId         String
+  goal           Goal            @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  parentMilestoneId String?
+  parentMilestone Milestone?    @relation("SubMilestones", fields: [parentMilestoneId], references: [id], onDelete: Cascade)
+  subMilestones  Milestone[]     @relation("SubMilestones")
+  
+  title          String
+  description    String?         @db.Text
+  sequenceOrder  Int             @default(1)
+  startDate      DateTime
+  deadline       DateTime
+  status         ReviewStatus    @default(LOCKED)
+  progress       Float           @default(0)
+  xpReward       Int             @default(100)
+
+  tasks          Task[]
+  approvalRequests ApprovalRequest[]
+
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@index([goalId])
+}
+
+model Task {
+  id               String       @id @default(uuid())
+  milestoneId      String
+  milestone        Milestone    @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  parentTaskId     String?
+  parentTask       Task?        @relation("SubTasks", fields: [parentTaskId], references: [id], onDelete: Cascade)
+  subTasks         Task[]       @relation("SubTasks")
+
+  title            String
+  description      String?      @db.Text
+  isCompleted      Boolean      @default(false)
+  priority         TaskPriority @default(P1)
+  energyLevel      EnergyLevel  @default(HIGH)
+  estimatedMinutes Int          @default(45)
+  actualMinutes    Int          @default(0)
+  dueDate          DateTime?
+  tags             String[]
+
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@index([milestoneId])
+}
+
+model ApprovalRequest {
+  id           String       @id @default(uuid())
+  milestoneId  String
+  milestone    Milestone    @relation(fields: [milestoneId], references: [id], onDelete: Cascade)
+  requesterId  String
+  requester    User         @relation("MilestoneRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  reviewerId   String
+  reviewer     User         @relation("MilestoneReviewer", fields: [reviewerId], references: [id], onDelete: Cascade)
+  status       String       @default("pending")
+  evidenceUrl  String?
+  reflection   String?
+  createdAt    DateTime     @default(now())
+}
+
+model KnowledgeNote {
+  id        String   @id @default(uuid())
+  goalId    String
+  goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  title     String
+  category  String   @default("General")
+  content   String   @db.Text
+  tags      String[]
+  links     String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([goalId])
+}
+
+model GoalJournal {
+  id             String   @id @default(uuid())
+  goalId         String
+  goal           Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date           DateTime @default(now())
+  mood           String   @default("focused")
+  energyLevel    Int      @default(8)
+  wins           String   @db.Text
+  challengesText String   @db.Text
+  lessons        String   @db.Text
+  tomorrowPlan   String   @db.Text
+  createdAt      DateTime @default(now())
+
+  @@index([goalId])
+}
+
+model GoalFile {
+  id        String   @id @default(uuid())
+  goalId    String
+  goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  fileName  String
+  fileUrl   String
+  fileType  String
+  fileSize  Int
+  createdAt DateTime @default(now())
+
+  @@index([goalId])
+}
+
+model ActivityLog {
+  id         String   @id @default(uuid())
+  goalId     String?
+  goal       Goal?    @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  actionType String
+  details    String?  @db.Text
+  xpAwarded  Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  @@index([userId])
+  @@index([goalId])
+}
