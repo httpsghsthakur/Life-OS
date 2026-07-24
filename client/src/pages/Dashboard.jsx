@@ -45,70 +45,73 @@ export default function Dashboard({ onOpenCommandPalette }) {
     const xpProgress = Math.min(100, Math.round(((user?.xp || 0) / xpForCurrentLevel) * 100));
 
     return (
-        <div className="min-h-screen bg-[#090A0F] text-slate-100 p-4 md:p-8 relative overflow-hidden">
-            {/* Ambient Background Glows */}
-            <div className="ambient-glow top-[-10%] left-[-10%] w-[500px] h-[500px] bg-indigo-600/15"></div>
-            <div className="ambient-glow bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-purple-600/10"></div>
+        <div className="min-h-screen bg-[#080B10] text-[#E2E8F0] p-4 md:p-8 relative overflow-hidden font-sans">
+            {/* Ambient Tactical Background Glows */}
+            <div className="ambient-glow top-[-10%] left-[-10%] w-[500px] h-[500px] bg-cyan-600/10"></div>
+            <div className="ambient-glow bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/10"></div>
 
             <div className="max-w-7xl mx-auto space-y-8 relative z-10">
                 
-                {/* PRO TOP BAR */}
-                <header className="glass-panel px-6 py-4 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-black text-xl shadow-lg shadow-indigo-500/20">
-                            L
+                {/* PALANTIR OPERATIONS TOP BAR */}
+                <header className="palantir-panel px-6 py-4 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-mono font-black text-xl text-black shadow-lg shadow-cyan-500/20">
+                            P
                         </div>
                         <div>
-                            <span className="font-bold tracking-tight text-lg gradient-text-primary">LifeOS</span>
-                            <span className="text-xs text-slate-500 block font-mono">v2.4 PRO ENGINE</span>
+                            <div className="flex items-center gap-2">
+                                <span className="font-mono font-black tracking-widest text-lg text-white">LIFEOS // APOLLO</span>
+                                <span className="palantir-badge">v2.4 FOUNDRY</span>
+                            </div>
+                            <span className="text-[11px] text-slate-400 block font-mono">SYS_OP: ONLINE • LATENCY: 14ms • TELEMETRY: SYNCED</span>
                         </div>
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
                         <button 
                             onClick={onOpenCommandPalette}
-                            className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs font-semibold text-slate-400 hover:text-white hover:border-slate-700 transition-all cursor-pointer w-full sm:w-auto justify-center"
+                            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-mono text-slate-300 hover:text-white hover:border-cyan-500/40 transition-all cursor-pointer w-full sm:w-auto justify-center"
                         >
-                            <FiSearch className="text-slate-400" />
-                            <span>Search...</span>
-                            <kbd className="px-1.5 py-0.5 bg-white/10 rounded text-[10px] text-slate-400 font-mono">Ctrl+K</kbd>
+                            <FiSearch className="text-cyan-400" />
+                            <span>EXECUTE_COMMAND...</span>
+                            <kbd className="px-1.5 py-0.5 bg-cyan-500/10 border border-cyan-500/30 rounded text-[10px] text-cyan-300 font-mono">CTRL+K</kbd>
                         </button>
 
-                        <nav className="flex items-center gap-3.5 text-xs font-medium text-slate-400 overflow-x-auto scrollbar-none max-w-full py-1">
-                            <Link to="/" className="text-indigo-400 font-semibold flex items-center gap-1.5 shrink-0">
-                                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-pulse"></span> Overview
+                        <nav className="flex items-center gap-3.5 text-xs font-mono font-bold text-slate-400 overflow-x-auto scrollbar-none max-w-full py-1">
+                            <Link to="/" className="text-cyan-400 font-bold flex items-center gap-1.5 shrink-0 bg-cyan-500/10 px-2.5 py-1 rounded-md border border-cyan-500/20">
+                                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> OVERVIEW
                             </Link>
-                            <Link to="/challenges" className="hover:text-slate-200 transition-colors shrink-0">Goals</Link>
-                            <Link to="/gym" className="hover:text-slate-200 transition-colors shrink-0">Fitness</Link>
-                            <Link to="/calendar" className="hover:text-slate-200 transition-colors shrink-0">Calendar</Link>
+                            <Link to="/challenges" className="hover:text-cyan-300 transition-colors shrink-0">GOALS</Link>
+                            <Link to="/gym" className="hover:text-cyan-300 transition-colors shrink-0">FITNESS</Link>
+                            <Link to="/calendar" className="hover:text-cyan-300 transition-colors shrink-0">CALENDAR</Link>
 
-                            <Link to="/notifications" className="hover:text-slate-200 transition-colors relative flex items-center gap-1 shrink-0">
-                                Alerts
+                            <Link to="/notifications" className="hover:text-cyan-300 transition-colors relative flex items-center gap-1 shrink-0">
+                                ALERTS
                                 {unreadCount > 0 && (
-                                    <span className="min-w-[18px] h-[18px] flex items-center justify-center bg-rose-600 text-white text-[10px] font-bold rounded-full px-1 animate-pulse">
+                                    <span className="min-w-[18px] h-[18px] flex items-center justify-center bg-rose-600 text-white text-[10px] font-bold rounded-full px-1 animate-pulse font-mono">
                                         {unreadCount}
                                     </span>
                                 )}
                             </Link>
-                            <Link to="/analytics" className="hover:text-slate-200 transition-colors shrink-0">Analytics</Link>
-                            <Link to="/friends" className="hover:text-slate-200 transition-colors shrink-0">Partners</Link>
+                            <Link to="/analytics" className="hover:text-cyan-300 transition-colors shrink-0">ANALYTICS</Link>
+                            <Link to="/friends" className="hover:text-cyan-300 transition-colors shrink-0">PARTNERS</Link>
                         </nav>
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-3 bg-slate-900/80 border border-slate-800 px-4 py-2 rounded-xl">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                        <div className="flex items-center gap-3 bg-slate-950/90 border border-cyan-500/20 px-4 py-2 rounded-xl">
+                            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-black font-mono font-black text-sm">
                                 {user?.username?.[0]?.toUpperCase()}
                             </div>
-                            <div className="text-left">
-                                <div className="text-xs font-bold text-slate-200 leading-tight">{user?.username}</div>
-                                <div className="text-[10px] text-indigo-400 font-mono">LVL {user?.level || 1}</div>
+                            <div className="text-left font-mono">
+                                <div className="text-xs font-bold text-white leading-tight">{user?.username}</div>
+                                <div className="text-[10px] text-cyan-400 font-bold">LVL {user?.level || 1} • {user?.xp || 0} XP</div>
                             </div>
                         </div>
 
                         <button 
                             onClick={logout} 
-                            className="p-2.5 bg-slate-900/80 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200 rounded-xl transition-all"
+                            className="p-2.5 bg-slate-900/90 border border-slate-800 hover:border-rose-500/40 text-slate-400 hover:text-rose-400 rounded-xl transition-all"
                             title="Sign Out"
                         >
                             <FiLogOut size={18} />
@@ -116,58 +119,63 @@ export default function Dashboard({ onOpenCommandPalette }) {
                     </div>
                 </header>
 
-                {/* HERO WELCOME BANNER */}
+                {/* PALANTIR HERO COMMAND CONSOLE */}
                 <motion.div 
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="glass-panel p-8 rounded-3xl relative overflow-hidden border border-indigo-500/20"
+                    className="palantir-panel p-8 rounded-3xl relative overflow-hidden border border-cyan-500/20"
                 >
-                    <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-indigo-500/10 to-transparent pointer-events-none"></div>
+                    <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-cyan-500/10 to-transparent pointer-events-none"></div>
 
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
                         <div>
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold mb-3">
-                                <FiShield /> DISCIPLINE PROTOCOL ACTIVE
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold mb-3 uppercase tracking-wider">
+                                <FiShield className="text-cyan-400" /> [DISCIPLINE PROTOCOL: ACTIVE]
                             </div>
-                            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight gradient-text-primary">
-                                Welcome back, {user?.username || 'Disciplinarian'}
+                            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white font-mono">
+                                OPERATOR: {user?.username?.toUpperCase() || 'DISCIPLINARIAN'}
                             </h1>
-                            <p className="text-slate-400 text-sm mt-1 max-w-xl">
-                                Stay consistent. Review peer milestones, maintain your coding streak, and execute today's split.
+                            <p className="text-slate-400 text-sm mt-1 max-w-xl font-mono">
+                                System telemetry nominal. Monitor peer milestones, execute daily sprint protocols, and maintain streak metrics.
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 font-mono">
                             <Link 
                                 to="/challenges/new" 
-                                className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold px-5 py-3 rounded-xl shadow-lg shadow-indigo-500/25 transition-all transform hover:scale-[1.02]"
+                                className="flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-black font-extrabold px-5 py-3 rounded-xl shadow-lg shadow-cyan-500/20 transition-all transform hover:scale-[1.02] text-xs uppercase tracking-wider"
                             >
-                                <FiPlus size={18} /> New Sprint
+                                <FiPlus size={18} /> + New Sprint Protocol
                             </Link>
                             <Link 
                                 to="/reviews" 
-                                className="flex items-center gap-2 bg-slate-900 border border-slate-700 hover:border-slate-600 text-slate-200 font-semibold px-5 py-3 rounded-xl transition-all"
+                                className="flex items-center gap-2 bg-slate-900 border border-slate-700 hover:border-cyan-500/40 text-slate-200 font-bold px-5 py-3 rounded-xl transition-all text-xs uppercase tracking-wider"
                             >
-                                <FiCheckSquare size={18} /> Review Approvals
+                                <FiCheckSquare size={18} /> Approvals Hub
                             </Link>
                         </div>
                     </div>
 
-                    {/* Level XP Progress Bar */}
-                    <div className="mt-8 pt-6 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                    {/* Palantir Level XP Telemetry Gauge */}
+                    <div className="mt-8 pt-6 border-t border-slate-800/80 grid grid-cols-1 md:grid-cols-4 gap-4 items-center font-mono">
                         <div className="md:col-span-3">
-                            <div className="flex justify-between text-xs font-semibold mb-2">
-                                <span className="text-slate-400">Level {user?.level || 1} Progress</span>
-                                <span className="text-indigo-400">{user?.xp || 0} / {xpForCurrentLevel} XP ({xpProgress}%)</span>
+                            <div className="flex justify-between text-xs font-bold mb-2">
+                                <span className="text-slate-400">LEVEL {user?.level || 1} TELEMETRY GAUGE</span>
+                                <span className="text-cyan-400 font-bold">{user?.xp || 0} / {xpForCurrentLevel} XP ({xpProgress}%)</span>
                             </div>
-                            <div className="h-2.5 w-full bg-slate-900 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                            <div className="h-3 w-full bg-slate-950 rounded-md overflow-hidden p-0.5 border border-cyan-500/30">
                                 <div 
-                                    className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full transition-all duration-500"
+                                    className="h-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-400 rounded-sm transition-all duration-500 shadow-md shadow-cyan-500/50"
                                     style={{ width: `${xpProgress}%` }}
                                 ></div>
                             </div>
                         </div>
                         <div className="text-right">
+                            <span className="text-[10px] text-slate-500 block uppercase tracking-wider font-bold">NEXT RANK CLASSIFICATION</span>
+                            <span className="text-sm font-extrabold text-cyan-400 uppercase">ELITE OPERATOR</span>
+                        </div>
+                    </div>
+                </motion.div>
                             <span className="text-xs text-slate-500 block">Next Tier Rank</span>
                             <span className="text-sm font-bold text-slate-200">Elite Disciplinarian</span>
                         </div>
