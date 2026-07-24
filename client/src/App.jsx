@@ -34,33 +34,44 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+import PalantirLayout from './components/layout/PalantirLayout';
+
+const ProtectedLayout = ({ children, onOpenCommandPalette }) => (
+  <ProtectedRoute>
+    <PalantirLayout onOpenCommandPalette={onOpenCommandPalette}>
+      {children}
+    </PalantirLayout>
+  </ProtectedRoute>
+);
+
 function AppRoutes() {
   const { user, loading } = useContext(AuthContext);
   const [isCmdOpen, setIsCmdOpen] = React.useState(false);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (loading) return <div className="min-h-screen bg-[#080B10] flex items-center justify-center font-mono text-cyan-400">INITIALIZING PALANTIR FOUNDRY CONSOLE...</div>;
 
   return (
     <>
       <Routes>
         <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
-        <Route path="/" element={<ProtectedRoute><Dashboard onOpenCommandPalette={() => setIsCmdOpen(true)} /></ProtectedRoute>} />
-        <Route path="/challenges" element={<ProtectedRoute><Challenges /></ProtectedRoute>} />
-        <Route path="/challenges/new" element={<ProtectedRoute><CreateChallenge /></ProtectedRoute>} />
-        <Route path="/challenges/:id" element={<ProtectedRoute><ChallengeDetail /></ProtectedRoute>} />
-        <Route path="/friends" element={<ProtectedRoute><Friends /></ProtectedRoute>} />
-        <Route path="/friends/:friendId" element={<ProtectedRoute><PartnerDashboard /></ProtectedRoute>} />
-        <Route path="/reviews" element={<ProtectedRoute><ReviewDashboard /></ProtectedRoute>} />
-        <Route path="/exams" element={<ProtectedRoute><ExamDashboard /></ProtectedRoute>} />
-        <Route path="/gym" element={<ProtectedRoute><GymDashboard /></ProtectedRoute>} />
-        <Route path="/dev" element={<ProtectedRoute><DevDashboard /></ProtectedRoute>} />
-        <Route path="/analytics" element={<ProtectedRoute><AnalyticsDashboard /></ProtectedRoute>} />
-        <Route path="/calendar" element={<ProtectedRoute><CalendarDashboard /></ProtectedRoute>} />
-        <Route path="/knowledge" element={<ProtectedRoute><KnowledgeDashboard /></ProtectedRoute>} />
-        <Route path="/ai-coach" element={<ProtectedRoute><AICoachDashboard /></ProtectedRoute>} />
-        <Route path="/notifications" element={<ProtectedRoute><NotificationsDashboard /></ProtectedRoute>} />
-        <Route path="/goals/workspace/:goalId" element={<ProtectedRoute><GoalWorkspace /></ProtectedRoute>} />
+        
+        <Route path="/" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><Dashboard onOpenCommandPalette={() => setIsCmdOpen(true)} /></ProtectedLayout>} />
+        <Route path="/challenges" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><Challenges /></ProtectedLayout>} />
+        <Route path="/challenges/new" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><CreateChallenge /></ProtectedLayout>} />
+        <Route path="/challenges/:id" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><ChallengeDetail /></ProtectedLayout>} />
+        <Route path="/friends" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><Friends /></ProtectedLayout>} />
+        <Route path="/friends/:friendId" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><PartnerDashboard /></ProtectedLayout>} />
+        <Route path="/reviews" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><ReviewDashboard /></ProtectedLayout>} />
+        <Route path="/exams" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><ExamDashboard /></ProtectedLayout>} />
+        <Route path="/gym" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><GymDashboard /></ProtectedLayout>} />
+        <Route path="/dev" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><DevDashboard /></ProtectedLayout>} />
+        <Route path="/analytics" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><AnalyticsDashboard /></ProtectedLayout>} />
+        <Route path="/calendar" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><CalendarDashboard /></ProtectedLayout>} />
+        <Route path="/knowledge" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><KnowledgeDashboard /></ProtectedLayout>} />
+        <Route path="/ai-coach" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><AICoachDashboard /></ProtectedLayout>} />
+        <Route path="/notifications" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><NotificationsDashboard /></ProtectedLayout>} />
+        <Route path="/goals/workspace/:goalId" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><GoalWorkspace /></ProtectedLayout>} />
       </Routes>
       {user && (
         <>

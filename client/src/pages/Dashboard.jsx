@@ -45,79 +45,7 @@ export default function Dashboard({ onOpenCommandPalette }) {
     const xpProgress = Math.min(100, Math.round(((user?.xp || 0) / xpForCurrentLevel) * 100));
 
     return (
-        <div className="min-h-screen bg-[#080B10] text-[#E2E8F0] p-4 md:p-8 relative overflow-hidden font-sans">
-            {/* Ambient Tactical Background Glows */}
-            <div className="ambient-glow top-[-10%] left-[-10%] w-[500px] h-[500px] bg-cyan-600/10"></div>
-            <div className="ambient-glow bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/10"></div>
-
-            <div className="max-w-7xl mx-auto space-y-8 relative z-10">
-                
-                {/* PALANTIR OPERATIONS TOP BAR */}
-                <header className="palantir-panel px-6 py-4 rounded-2xl flex flex-col md:flex-row justify-between items-center gap-4">
-                    <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center font-mono font-black text-xl text-black shadow-lg shadow-cyan-500/20">
-                            P
-                        </div>
-                        <div>
-                            <div className="flex items-center gap-2">
-                                <span className="font-mono font-black tracking-widest text-lg text-white">LIFEOS // APOLLO</span>
-                                <span className="palantir-badge">v2.4 FOUNDRY</span>
-                            </div>
-                            <span className="text-[11px] text-slate-400 block font-mono">SYS_OP: ONLINE • LATENCY: 14ms • TELEMETRY: SYNCED</span>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-                        <button 
-                            onClick={onOpenCommandPalette}
-                            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-mono text-slate-300 hover:text-white hover:border-cyan-500/40 transition-all cursor-pointer w-full sm:w-auto justify-center"
-                        >
-                            <FiSearch className="text-cyan-400" />
-                            <span>EXECUTE_COMMAND...</span>
-                            <kbd className="px-1.5 py-0.5 bg-cyan-500/10 border border-cyan-500/30 rounded text-[10px] text-cyan-300 font-mono">CTRL+K</kbd>
-                        </button>
-
-                        <nav className="flex items-center gap-3.5 text-xs font-mono font-bold text-slate-400 overflow-x-auto scrollbar-none max-w-full py-1">
-                            <Link to="/" className="text-cyan-400 font-bold flex items-center gap-1.5 shrink-0 bg-cyan-500/10 px-2.5 py-1 rounded-md border border-cyan-500/20">
-                                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span> OVERVIEW
-                            </Link>
-                            <Link to="/challenges" className="hover:text-cyan-300 transition-colors shrink-0">GOALS</Link>
-                            <Link to="/gym" className="hover:text-cyan-300 transition-colors shrink-0">FITNESS</Link>
-                            <Link to="/calendar" className="hover:text-cyan-300 transition-colors shrink-0">CALENDAR</Link>
-
-                            <Link to="/notifications" className="hover:text-cyan-300 transition-colors relative flex items-center gap-1 shrink-0">
-                                ALERTS
-                                {unreadCount > 0 && (
-                                    <span className="min-w-[18px] h-[18px] flex items-center justify-center bg-rose-600 text-white text-[10px] font-bold rounded-full px-1 animate-pulse font-mono">
-                                        {unreadCount}
-                                    </span>
-                                )}
-                            </Link>
-                            <Link to="/analytics" className="hover:text-cyan-300 transition-colors shrink-0">ANALYTICS</Link>
-                            <Link to="/friends" className="hover:text-cyan-300 transition-colors shrink-0">PARTNERS</Link>
-                        </nav>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        <div className="flex items-center gap-3 bg-slate-950/90 border border-cyan-500/20 px-4 py-2 rounded-xl">
-                            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-indigo-600 flex items-center justify-center text-black font-mono font-black text-sm">
-                                {user?.username?.[0]?.toUpperCase()}
-                            </div>
-                            <div className="text-left font-mono">
-                                <div className="text-xs font-bold text-white leading-tight">{user?.username}</div>
-                                <div className="text-[10px] text-cyan-400 font-bold">LVL {user?.level || 1} • {user?.xp || 0} XP</div>
-                            </div>
-                        </div>
-
-                        <button 
-                            onClick={logout} 
-                            className="p-2.5 bg-slate-900/90 border border-slate-800 hover:border-rose-500/40 text-slate-400 hover:text-rose-400 rounded-xl transition-all"
-                            title="Sign Out"
-                        >
-                            <FiLogOut size={18} />
-                        </button>
-                    </div>
-                </header>
+        <div className="space-y-8 relative z-10 font-sans">
 
                 {/* PALANTIR HERO COMMAND CONSOLE */}
                 <motion.div 
@@ -379,9 +307,6 @@ export default function Dashboard({ onOpenCommandPalette }) {
                             ))}
                         </div>
                     )}
-                </div>
-
             </div>
-        </div>
     );
 }
