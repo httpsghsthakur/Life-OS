@@ -5,12 +5,11 @@ import App from './App.jsx';
 import './index.css';
 import { initClientApiAdapter } from './lib/clientApiAdapter';
 
-// Initialize standalone client API adapter for 100% dist-folder static deployment
+// Initialize standalone client API adapter
 initClientApiAdapter();
 
-if (import.meta.env.VITE_API_URL) {
-    axios.defaults.baseURL = import.meta.env.VITE_API_URL;
-}
+// Bind live Render API Gateway URL
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'https://life-os-8jxd.onrender.com';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
