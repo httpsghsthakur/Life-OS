@@ -5,7 +5,7 @@ import {
     FiGrid, FiTarget, FiActivity, FiCalendar, FiBell, FiBarChart2, 
     FiUsers, FiCpu, FiBookOpen, FiShield, FiTerminal, FiSearch, 
     FiLogOut, FiPlus, FiCheckSquare, FiZap, FiChevronRight, FiClock,
-    FiSliders, FiLayers, FiRadio, FiCheckCircle2
+    FiSliders, FiLayers, FiRadio, FiCheckCircle
 } from 'react-icons/fi';
 import dayjs from 'dayjs';
 
