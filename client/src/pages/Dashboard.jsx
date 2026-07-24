@@ -176,81 +176,76 @@ export default function Dashboard({ onOpenCommandPalette }) {
                         </div>
                     </div>
                 </motion.div>
-                            <span className="text-xs text-slate-500 block">Next Tier Rank</span>
-                            <span className="text-sm font-bold text-slate-200">Elite Disciplinarian</span>
-                        </div>
-                    </div>
-                </motion.div>
 
-                {/* 4 PRO STAT CARDS */}
+                {/* 4 PALANTIR TELEMETRY NODES */}
                 <motion.div 
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 font-mono"
                 >
                     {/* XP Card */}
-                    <div className="glass-card p-6 rounded-2xl relative overflow-hidden">
+                    <div className="palantir-card p-6 rounded-2xl relative overflow-hidden">
                         <div className="flex justify-between items-start">
                             <div>
-                                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Experience</span>
-                                <div className="text-3xl font-extrabold mt-2 text-slate-100">{user?.xp || 0} <span className="text-sm font-semibold text-indigo-400">XP</span></div>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">[XP_METRIC]</span>
+                                <div className="text-3xl font-black mt-2 text-white">{user?.xp || 0} <span className="text-sm font-bold text-cyan-400">XP</span></div>
                             </div>
-                            <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
+                            <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
                                 <FiAward size={24} />
                             </div>
                         </div>
-                        <div className="mt-4 flex items-center text-xs text-emerald-400 font-medium">
-                            <FiTrendingUp className="mr-1" /> Tier multiplier active
+                        <div className="mt-4 flex items-center text-xs text-emerald-400 font-bold">
+                            <FiTrendingUp className="mr-1" /> TIER_MULTIPLIER: 1.5x ACTIVE
                         </div>
                     </div>
 
                     {/* Streak Card */}
-                    <div className="glass-card p-6 rounded-2xl relative overflow-hidden">
+                    <div className="palantir-card p-6 rounded-2xl relative overflow-hidden">
                         <div className="flex justify-between items-start">
                             <div>
-                                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Current Streak</span>
-                                <div className="text-3xl font-extrabold mt-2 gradient-text-emerald">{user?.current_streak || 0} <span className="text-sm font-semibold text-emerald-400">Days</span></div>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">[CYBER_STREAK]</span>
+                                <div className="text-3xl font-black mt-2 text-emerald-400">{user?.current_streak || 0} <span className="text-sm font-bold text-slate-400">DAYS</span></div>
                             </div>
-                            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
                                 <FiZap size={24} />
                             </div>
                         </div>
-                        <div className="mt-4 text-xs text-slate-400 font-medium">
-                            Status: <span className="text-emerald-400 font-semibold">Streak Secured</span>
+                        <div className="mt-4 text-xs text-slate-400 font-bold">
+                            STATUS: <span className="text-emerald-400">● STREAK_SECURED</span>
                         </div>
                     </div>
 
-                    {/* Active Challenges Card */}
-                    <Link to="/challenges" className="glass-card p-6 rounded-2xl relative overflow-hidden group block">
+                    {/* Active Sprints Card */}
+                    <Link to="/challenges" className="palantir-card p-6 rounded-2xl relative overflow-hidden group block">
                         <div className="flex justify-between items-start">
                             <div>
-                                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Sprints</span>
-                                <div className="text-3xl font-extrabold mt-2 text-slate-100">{challenges.length} <span className="text-sm font-semibold text-slate-400">Tracked</span></div>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">[ACTIVE_SPRINTS]</span>
+                                <div className="text-3xl font-black mt-2 text-white">{challenges.length} <span className="text-sm font-bold text-slate-400">NODES</span></div>
                             </div>
-                            <div className="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 group-hover:scale-110 transition-transform">
+                            <div className="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform">
                                 <FiTarget size={24} />
                             </div>
                         </div>
-                        <div className="mt-4 flex items-center justify-between text-xs text-violet-400 font-semibold">
-                            <span>Manage Challenges</span>
+                        <div className="mt-4 flex items-center justify-between text-xs text-cyan-400 font-bold">
+                            <span>MANAGE_SPRINTS</span>
                             <FiArrowRight />
                         </div>
                     </Link>
 
-                    {/* Reviews Card */}
-                    <Link to="/reviews" className="glass-card p-6 rounded-2xl relative overflow-hidden group block">
+                    {/* Peer Telemetry Card */}
+                    <Link to="/friends" className="palantir-card p-6 rounded-2xl relative overflow-hidden group block">
                         <div className="flex justify-between items-start">
                             <div>
-                                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Peer Accountability</span>
-                                <div className="text-3xl font-extrabold mt-2 text-rose-400">Review Hub</div>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">[PEER_TELEMETRY]</span>
+                                <div className="text-3xl font-black mt-2 text-rose-400">ACTIVE</div>
                             </div>
-                            <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform">
+                            <div className="w-12 h-12 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 group-hover:scale-110 transition-transform">
                                 <FiUsers size={24} />
                             </div>
                         </div>
-                        <div className="mt-4 flex items-center justify-between text-xs text-rose-400 font-semibold">
-                            <span>Check Pending Approvals</span>
+                        <div className="mt-4 flex items-center justify-between text-xs text-rose-400 font-bold">
+                            <span>INSPECT_PARTNERS</span>
                             <FiArrowRight />
                         </div>
                     </Link>
