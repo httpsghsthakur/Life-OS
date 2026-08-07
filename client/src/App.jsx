@@ -4,6 +4,7 @@ import { AuthContext, AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Tasks from './pages/Tasks';
 
 import Challenges from './pages/Challenges';
 import CreateChallenge from './pages/CreateChallenge';
@@ -57,6 +58,7 @@ function AppRoutes() {
         <Route path="/register" element={user ? <Navigate to="/" /> : <Register />} />
         
         <Route path="/" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><Dashboard onOpenCommandPalette={() => setIsCmdOpen(true)} /></ProtectedLayout>} />
+        <Route path="/tasks" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><Tasks /></ProtectedLayout>} />
         <Route path="/challenges" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><Challenges /></ProtectedLayout>} />
         <Route path="/challenges/new" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><CreateChallenge /></ProtectedLayout>} />
         <Route path="/challenges/:id" element={<ProtectedLayout onOpenCommandPalette={() => setIsCmdOpen(true)}><ChallengeDetail /></ProtectedLayout>} />

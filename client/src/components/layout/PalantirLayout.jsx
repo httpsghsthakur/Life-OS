@@ -32,6 +32,7 @@ const PalantirLayout = ({ children, onOpenCommandPalette }) => {
 
     const iconNavItems = [
         { label: 'Overview Console', path: '/', icon: FiGrid },
+        { label: 'Daily Tasks', path: '/tasks', icon: FiCheckSquare },
         { label: 'Sprint Goals', path: '/challenges', icon: FiTarget },
         { label: 'Iron Forge Gym', path: '/gym', icon: FiActivity },
         { label: 'Calendar', path: '/calendar', icon: FiCalendar },
